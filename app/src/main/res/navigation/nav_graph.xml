@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/initialListFragment">
+
+    <fragment
+        android:id="@+id/initialListFragment"
+        android:name="cl.gencina.shoestap.vista.InitialListFragment"
+        android:label="fragment_initial_list"
+        tools:layout="@layout/fragment_initial_list" >
+        <action
+            android:id="@+id/action_initialListFragment_to_detailProductFragment"
+            app:destination="@id/detailProductFragment" />
+        <action
+            android:id="@+id/action_initialListFragment_to_carritoComprasFragment"
+            app:destination="@id/carritoComprasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailProductFragment"
+        android:name="cl.gencina.shoestap.vista.DetailProductFragment"
+        android:label="fragment_detail_product"
+        tools:layout="@layout/fragment_detail_product" >
+        <action
+            android:id="@+id/action_detailProductFragment_to_initialListFragment"
+            app:destination="@id/initialListFragment" />
+        <action
+            android:id="@+id/action_detailProductFragment_to_carritoComprasFragment"
+            app:destination="@id/carritoComprasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/carritoComprasFragment"
+        android:name="cl.gencina.shoestap.vista.CarritoComprasFragment"
+        android:label="fragment_carrito_compras"
+        tools:layout="@layout/fragment_carrito_compras" >
+        <action
+            android:id="@+id/action_carritoComprasFragment_to_initialListFragment"
+            app:destination="@id/initialListFragment" />
+    </fragment>
+</navigation>
