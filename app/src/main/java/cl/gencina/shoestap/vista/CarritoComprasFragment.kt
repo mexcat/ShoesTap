@@ -3,21 +3,21 @@ package cl.gencina.shoestap.vista
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import cl.gencina.shoestap.CarritoComprasRvAdapter
 import cl.gencina.shoestap.InfoProductos
 import cl.gencina.shoestap.R
 import cl.gencina.shoestap.databinding.FragmentCarritoComprasBinding
+import cl.gencina.shoestap.modelo.CarritoComprasModel
 import cl.gencina.shoestap.modelo.Shoes
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
-
 
 class CarritoComprasFragment : Fragment() {
     private var id: Int? = null
@@ -29,6 +29,7 @@ class CarritoComprasFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         arguments?.let {
             id = it.getInt("id")
         }
@@ -43,15 +44,13 @@ class CarritoComprasFragment : Fragment() {
         initData()
         return binding.root
     }
-
     private fun initData() {
         var total = 0.0
-        var gson = Gson()
+        val gson = Gson()
 
-        var listaData = preferences.getString("listaCarro", null)
+        val listaData = preferences.getString("listaCarro", null)
         val type: Type = object : TypeToken<MutableList<Shoes?>?>() {}.type
 
-        Log.e("listaData",listaData.toString())
         if(listaData != null) {
             lista = gson.fromJson(listaData, type)
         }
@@ -63,19 +62,27 @@ class CarritoComprasFragment : Fragment() {
 
         initApadter(lista)
         saveToShared(lista)
-        binding.tvTotal.text = total.toString()
+        binding.tvTotal.text = CarritoComprasModel().roundValor(total)
+
         binding.ibVolverCarrito.setOnClickListener {
+            Navigation.findNavController(binding.root).navigate(R.id.action_carritoComprasFragment_to_initialListFragment)
+        }
+
+        binding.btnPagar.setOnClickListener {
+            preferences.edit().clear().apply()
+            Toast.makeText(parentFragment?.context, "Compra realizada", Toast.LENGTH_LONG).show()
             Navigation.findNavController(binding.root).navigate(R.id.action_carritoComprasFragment_to_initialListFragment)
         }
     }
 
-    fun removeElement(item:Shoes){
 
-    }
+   // fun removeElement(item:Shoes){
+
+    //}
 
     private fun saveToShared(lista: MutableList<Shoes>) {
-        var gson = Gson()
-        var listaGson = gson.toJson(lista)
+        val gson = Gson()
+        val listaGson = gson.toJson(lista)
         preferences.edit().clear().apply()
         preferences.edit().putString("listaCarro", listaGson).apply()
     }
@@ -85,4 +92,7 @@ class CarritoComprasFragment : Fragment() {
         adapter.setData(lista)
         binding.rvListaCarrito.adapter = adapter
     }
+
+
+
 }

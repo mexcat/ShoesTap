@@ -3,14 +3,12 @@ package cl.gencina.shoestap
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Adapter
 import androidx.recyclerview.widget.RecyclerView
 import cl.gencina.shoestap.databinding.CarritoComprasItemBinding
 import cl.gencina.shoestap.modelo.Shoes
-import cl.gencina.shoestap.vista.CarritoComprasFragment
 import coil.load
 
-public class CarritoComprasRvAdapter : RecyclerView.Adapter<CarritoComprasRvAdapter.ViewHolder>() {
+ class CarritoComprasRvAdapter : RecyclerView.Adapter<CarritoComprasRvAdapter.ViewHolder>() {
     private lateinit var context:Context
     var listaZapatosTienda: MutableList<Shoes> = mutableListOf()
 
@@ -43,10 +41,10 @@ public class CarritoComprasRvAdapter : RecyclerView.Adapter<CarritoComprasRvAdap
             binding.tvNombreItemCarrito.text = item.nombre
 
             binding.ivImageCarrito.load(item.url)
+
             binding.ibDeleteItemCarrito.setOnClickListener {
                 listaZapatosTienda.remove(item)
             }
-
         }
     }
 
